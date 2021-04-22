@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/jripke74/nodeJStrningNew/issues"
   },
-  "homepage": "https://github.com/jripke74/nodeJStrningNew#readme"
+  "homepage": "https://github.com/jripke74/nodeJStrningNew#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
 }
