@@ -29,7 +29,7 @@ module.exports = class Product {
     getProductsFromfile(products => {
       products.push(this);
       fs.writeFile(p, JSON.stringify(products), err => {
-        // console.log(err);
+        console.log(err);
       });
     });
   }
