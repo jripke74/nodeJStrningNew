@@ -11,7 +11,7 @@ exports.getProducts = (req, res, next) => {
   })
   .catch(err => {
     console.log(err);
-  })
+  });
 };
 
 exports.getProduct = (req, res, next) => {
@@ -24,6 +24,7 @@ exports.getProduct = (req, res, next) => {
         path: '/products'
       });
     })
+    .catch(err => console.log(err));
 }
 
 exports.getIndex = (req, res, next) => {
