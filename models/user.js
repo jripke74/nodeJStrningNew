@@ -14,7 +14,7 @@ const userSchema = new Schema({
   cart: {
     items: [
       { 
-        produnctId: { type: Schema.Types.ObjectId, ref: 'Product', required: true }, 
+        productId: { type: Schema.Types.ObjectId, ref: 'Product', required: true }, 
         quantity: { type: Number, required: true }
       }
    ]
@@ -38,7 +38,7 @@ userSchema.methods.addToCart = function(product) {
       });
     }
     const updatedCart = {
-      item: updatedCartItems
+      items: updatedCartItems
     }
     this.cart = updatedCart;
     return this.save();
