@@ -39,10 +39,10 @@ app.use(
 app.use(csrfProtection);
 
 app.use((req, res, next) => {
-  if (!req.session.user) {
+  if (!req.user) {
     return next();
   }
-  User.findById(req.session.user._id)
+  User.findById(req.user._id)
     .then(user => {
       req.user = user;
       next();
