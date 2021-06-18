@@ -11,7 +11,8 @@ const flash = require('connect-flash');
 const errorController = require('./controllers/error');
 const User = require('./models/user');
 
-const MONGODB_URI = 'mongodb+srv://user1:nWyWzsOk4ks7Kd9F@cluster0.yhsnj.mongodb.net/shop?retryWrites=true&w=majority';
+const MONGODB_URI = 
+  'mongodb+srv://user1:nWyWzsOk4ks7Kd9F@cluster0.yhsnj.mongodb.net/shop?retryWrites=true&w=majority';
 
 const app = express();
 const store = new MongoDBStore({
@@ -41,10 +42,10 @@ app.use(csrfProtection);
 app.use(flash());
 
 app.use((req, res, next) => {
-  if (!req.user) {
+  if (!req.session.user) {
     return next();
   }
-  User.findById(req.user._id)
+  User.findById(req.session.user._id)
     .then(user => {
       req.user = user;
       next();

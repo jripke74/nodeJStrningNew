@@ -61,12 +61,11 @@ exports.postLogin = (req, res, next) => {
     .catch(err => console.log(err));
 };
 
-exports.postSignup = (req, res, nect) => {
+exports.postSignup = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
   const confirmPassword = req.body.confirmPassword;
-  User
-    .findOne( {email: email} )
+  User.findOne( {email: email} )
     .then(userDoc => {
       if (userDoc) {
         req.flash('error', 'E-mail exists already, please pick a different one.');

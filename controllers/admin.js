@@ -1,9 +1,6 @@
 const Product = require('../models/product');
 
 exports.getAddProduct = (req, res, next) => {
-  // if (!req.session.isLoggedIn) {
-  //   return res.redirect('/login');
-  // }
   res.render('admin/edit-product', {
     pageTitle: 'Add Product',
     path: '/admin/add-product',
@@ -26,6 +23,7 @@ exports.postAddProduct = (req, res, next) => {
   product
     .save()
     .then(result => {
+
       console.log('Created Product');
       res.redirect('/admin/products');
     })
@@ -51,7 +49,8 @@ exports.getEditProduct = (req, res, next) => {
         editing: editMode,
         product: product
       });
-  });
+  })
+  .catch(err => console.log(err));
 };
 
 exports.postEditProduct = (req, res, next) => {
@@ -97,7 +96,5 @@ exports.postDeleteProduct = (req, res, next) => {
       console.log('DESTROYED PRODUCT');
       res.redirect('/admin/products');
     })
-    .catch(err => {
-      console.log(err);
-    });
+    .catch(err => console.log(err));
 };
