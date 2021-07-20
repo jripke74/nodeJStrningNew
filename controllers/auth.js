@@ -8,12 +8,13 @@ const User = require('../models/user');
 
 const transporter = nodemailer.createTransport(sendgridTransport({
   auth: {
-    // eslint-disable-next-line max-len
-    api_key: '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',
+    // eslint-disable-next-line camelcase
+    api_key: 
+    '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',
   },
 }));
 
-exports.getLogin = (req, res, next) => {
+exports.getLogin = (req, res) => {
   let message = req.flash('error');
   if (message.length > 0) {
     message = message[0];
@@ -27,7 +28,7 @@ exports.getLogin = (req, res, next) => {
   });
 };
 
-exports.getSignup = (req, res, next) => {
+exports.getSignup = (req, res) => {
   let message = req.flash('error');
   if (message.length > 0) {
     message = message[0];
@@ -41,7 +42,7 @@ exports.getSignup = (req, res, next) => {
   });
 };
 
-exports.postLogin = (req, res, next) => {
+exports.postLogin = (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
   User.findOne({ email: email })
@@ -72,7 +73,7 @@ exports.postLogin = (req, res, next) => {
     .catch(err => console.log(err));
 };
 
-exports.postSignup = (req, res, next) => {
+exports.postSignup = (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
   const confirmPassword = req.body.confirmPassword;
@@ -95,7 +96,7 @@ exports.postSignup = (req, res, next) => {
           });
           return user.save();
         })
-        .then(result => {
+        .then(() => {
           res.redirect('/login');
           return transporter.sendMail({
             to: email,
@@ -113,7 +114,7 @@ exports.postSignup = (req, res, next) => {
     });
 };
 
-exports.postLogout = (req, res, next) => {
+exports.postLogout = (req, res) => {
   req.session.destroy(err => {
     console.log(err);
     res.redirect('/');
