@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
@@ -8,8 +8,9 @@ const User = require('../models/user');
 
 const transporter = nodemailer.createTransport(sendgridTransport({
   auth: {
-    api_key: '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'
-  }
+    // eslint-disable-next-line max-len
+    api_key: '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',
+  },
 }));
 
 exports.getLogin = (req, res, next) => {
@@ -22,7 +23,7 @@ exports.getLogin = (req, res, next) => {
   res.render('auth/login', {
     path: '/login',
     pageTitle: 'Login',
-    errorMessage: message
+    errorMessage: message,
   });
 };
 
@@ -36,7 +37,7 @@ exports.getSignup = (req, res, next) => {
   res.render('auth/signup', {
     path: '/signup',
     pageTitle: 'Signup',
-    errorMessage: message
+    errorMessage: message,
   });
 };
 
@@ -60,7 +61,7 @@ exports.postLogin = (req, res, next) => {
               res.redirect('/');
             });
           }
-          req.flash('error', 'Invalid email or password.')
+          req.flash('error', 'Invalid email or password.');
           res.redirect('login');
         })
         .catch(err => {
@@ -78,7 +79,10 @@ exports.postSignup = (req, res, next) => {
   User.findOne( {email: email} )
     .then(userDoc => {
       if (userDoc) {
-        req.flash('error', 'E-mail exists already, please pick a different one.');
+        req.flash(
+          'error', 
+          'E-mail exists already, please pick a different one.'
+        );
         return res.redirect('/signup');
       }
       return bcrypt
@@ -87,7 +91,7 @@ exports.postSignup = (req, res, next) => {
           const user = new User({
             email: email,
             password: hashedPassword,
-            cart: { items: [] }
+            cart: { items: [] },
           });
           return user.save();
         })
@@ -97,7 +101,7 @@ exports.postSignup = (req, res, next) => {
             to: email,
             from: 'jeff@jeffripke.com',
             subject: 'Signup succeeed!',
-            html: '<h1>You successfully signed up!</h1>'
+            html: '<h1>You successfully signed up!</h1>',
           });
         })
         .catch(err => {
