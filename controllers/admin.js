@@ -51,8 +51,8 @@ exports.getEditProduct = (req, res, next) => {
         editing: editMode,
         product: product,
       });
-  })
-  .catch(err => console.log(err));
+    })
+    .catch(err => console.log(err));
 };
 
 exports.postEditProduct = (req, res, next) => {
@@ -69,7 +69,7 @@ exports.postEditProduct = (req, res, next) => {
       product.description = updatedDesc;
       product.imageUrl = updatedImageUrl;
       return product.save();
-  })
+    })
     .then(result => {
       console.log('Updated Product!');
       res.redirect('/admin/products');
@@ -88,8 +88,8 @@ exports.getProducts = (req, res, next) => {
         pageTitle: 'Admin Products',
         path: '/admin/products',
       });
-  })
-  .catch(err => console.log(err));
+    })
+    .catch(err => console.log(err));
 };
 
 exports.postDeleteProduct = (req, res, next) => {
