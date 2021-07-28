@@ -1,3 +1,5 @@
+'use strict';
+
 const Product = require('../models/product');
 const Order = require('../models/order');
 
@@ -86,7 +88,7 @@ exports.postOrder = (req, res, next) => {
     .execPopulate()
     .then(user => {
       const products = user.cart.items.map(i => {
-        return { quantity: i.quantity, product: { ...i.productId._doc }};
+        return { quantity: i.quantity, product: {...i. productId._doc}};
       });
       const order = new Order({
         user: {

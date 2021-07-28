@@ -1,3 +1,5 @@
+'use strict';
+
 const path = require('path');
 
 const express = require('express');
@@ -12,12 +14,13 @@ const errorController = require('./controllers/error');
 const User = require('./models/user');
 
 const MONGODB_URI = 
+  // eslint-disable-next-line max-len
   'mongodb+srv://user1:nWyWzsOk4ks7Kd9F@cluster0.yhsnj.mongodb.net/shop?retryWrites=true&w=majority';
 
 const app = express();
 const store = new MongoDBStore({
   uri: MONGODB_URI,
-  collection: 'sessions'
+  collection: 'sessions',
 });
 const csrfProtection = csrf();
 
@@ -28,14 +31,14 @@ const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const authRoutes = require('./routes/auth');
 
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(
   session({ 
     secret: 'my secret', 
     resave: false, 
     saveUninitialized: false,
-    store: store
+    store: store,
   })
 );
 app.use(csrfProtection);
@@ -69,7 +72,7 @@ moogoose
   .connect(
     MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true }
   )
-  .then(result => {
+  .then(() => {
     app.listen(3000);
   })
   .catch(err => {
