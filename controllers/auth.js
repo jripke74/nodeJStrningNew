@@ -13,7 +13,8 @@ const transporter = nodemailer.createTransport(sendgridTransport({
   auth: {
     // eslint-disable-next-line camelcase
     api_key: 
-    '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',
+    `SG.zavfZ5JLTqmaxS24UAlwiQ.
+    KcyYiwJDYc-8KaCqn45m88mVSuIKwT9BP6-sKrosKqw`,
   },
 }));
 
@@ -42,6 +43,11 @@ exports.getSignup = (req, res) => {
     path: '/signup',
     pageTitle: 'Signup',
     errorMessage: message,
+    oldInput: {
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
   });
 };
 
@@ -51,7 +57,7 @@ exports.postLogin = (req, res) => {
 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.render('auth/login', {
+    return res.status(422).render('auth/login', {
       path: '/login',
       pageTitle: 'Login',
       errorMessage: errors.array()[0].msg,
@@ -89,12 +95,23 @@ exports.postLogin = (req, res) => {
 exports.postSignup = (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
+
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).render('auth/signup', {
       path: '/signup',
       pageTitle: 'Signup',
       errorMessage: errors.array()[0].msg,
+      oldInput: { 
+        email: email, 
+        password: password, 
+        confirmPassword: req.body.confirmPassword,
+        oldInput: { 
+          email: email, 
+          password: password, 
+          confirmPassword: req.body.confirmPassword, 
+        },
+      },
     });
   }
   bcrypt
