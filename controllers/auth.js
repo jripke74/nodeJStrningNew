@@ -33,6 +33,7 @@ exports.getLogin = (req, res) => {
       email: '',
       password: '',
     },
+    validationErrors: [],
   });
 };
 
