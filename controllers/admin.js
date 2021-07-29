@@ -1,7 +1,5 @@
 'use strict';
 
-const mongoose = require('mongoose');
-
 const { validationResult } = require('express-validator');
 
 const Product = require('../models/product');
@@ -42,7 +40,6 @@ exports.postAddProduct = (req, res, next) => {
   }
 
   const product = new Product({
-    _id: new mongoose.Types.ObjectId('60ccb59cdd3948147421daf5'),
     title: title, 
     price: price, 
     description: description, 
@@ -63,7 +60,7 @@ exports.postAddProduct = (req, res, next) => {
     });
 };
 
-exports.getEditProduct = (req, res) => {
+exports.getEditProduct = (req, res, next) => {
   const editMode = req.query.edit;
   if (!editMode) {
     return res.redirect('/');
@@ -91,7 +88,7 @@ exports.getEditProduct = (req, res) => {
     });
 };
 
-exports.postEditProduct = (req, res) => {
+exports.postEditProduct = (req, res, next) => {
   const prodId = req.body.productId;
   const updatedTitle = req.body.title;
   const updatedPrice = req.body.price;
@@ -132,10 +129,14 @@ exports.postEditProduct = (req, res) => {
         res.redirect('/admin/products');
       });
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
-exports.getProducts = (req, res) => {
+exports.getProducts = (req, res, next) => {
   Product.find({ userId: req.user._id })
   // eslint-disable-next-line multiline-comment-style
   // .select('title price -_id')
@@ -147,15 +148,23 @@ exports.getProducts = (req, res) => {
         path: '/admin/products',
       });
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
-exports.postDeleteProduct = (req, res) => {
+exports.postDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
   Product.deleteOne({ _id: prodId, userId: req.user._id })
     .then(() => {
       console.log('DESTROYED PRODUCT');
       res.redirect('/admin/products');
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
