@@ -75,6 +75,11 @@ app.get('/500', errorController.get500);
 
 app.use(errorController.get404);
 
+// eslint-disable-next-line no-unused-vars
+app.use((error, req, res, next) => {
+  res.redirect('/500');
+});
+
 moogoose
   .connect(
     MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true }
