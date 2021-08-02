@@ -1,5 +1,8 @@
 'use strict';
 
+const fs = require('fs');
+const path = require('path');
+
 const Product = require('../models/product');
 const Order = require('../models/order');
 
@@ -150,3 +153,15 @@ exports.getCheckout = (req, res) => {
     pageTitle: 'Checkout'
   })
 };
+
+exports.getInvoice = (req, res, next) => {
+  const orderId = req.params.orderId;
+  const invoiceName = 'invoice-' + orderId + '.pdf';
+  const invoicePath = path.join('data', 'invoices', invoiceName);
+  fs.readFile(invoicePath, (err, data) => {
+    if (err) {
+      return next();
+    }
+    res.send(data);
+  })
+}
